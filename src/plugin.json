@@ -1,6 +1,6 @@
 {
-  "name": "SimpleJson",
-  "id": "grafana-simple-json-datasource",
+  "name": "SAYMON",
+  "id": "grafana-saymon-datasource",
   "type": "datasource",
 
   "partials": {
@@ -8,24 +8,23 @@
   },
 
   "metrics": true,
-  "annotations": true,
+  "annotations": false,
 
   "info": {
-    "description": "simple json datasource",
+    "description": "SAYMON datasource",
     "author": {
-      "name": "Grafana Labs",
-      "url": "https://grafana.com"
+      "name": "SAYMON Technologies",
+      "url": "http://saymon.info"
     },
     "logos": {
-      "small": "img/simpleJson_logo.svg",
-      "large": "img/simpleJson_logo.svg"
+      "small": "img/Saymon.png",
+      "large": "img/Saymon.png"
     },
     "links": [
-      {"name": "GitHub", "url": "https://github.com/grafana/simple-json-datasource"},
-      {"name": "MIT License", "url": "https://github.com/grafana/simple-json-datasource/blob/master/LICENSE"}
+      {"name": "Site", "url": "http://saymon.info"}
     ],
-    "version": "1.4.0",
-    "updated": "2018-06-20"
+    "version": "0.0.1",
+    "updated": "2018-12-12"
   },
 
   "dependencies": {
