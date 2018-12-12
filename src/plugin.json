@@ -21,7 +21,7 @@
       "large": "img/Saymon.png"
     },
     "links": [
-      {"name": "Site", "url": "http://saymon.info"}
+      { "name": "Site", "url": "http://saymon.info" }
     ],
     "version": "0.0.1",
     "updated": "2018-12-12"
