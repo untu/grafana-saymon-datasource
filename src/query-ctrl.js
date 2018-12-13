@@ -19,18 +19,8 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
 
       this.datasource
         .listMetrics(this.target.objectId)
-        .then(result => {
-          callback(result.data);
-        });
+        .then(callback);
     };
-  }
-
-  getOptions(query) {
-    return this.datasource.metricFindQuery(query || '');
-  }
-
-  toggleEditorMode() {
-    this.target.rawQuery = !this.target.rawQuery;
   }
 
   onChangeInternal() {
