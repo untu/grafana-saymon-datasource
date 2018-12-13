@@ -1,5 +1,5 @@
 import { GenericDatasource } from './datasource';
-import { GenericDatasourceQueryCtrl } from './query_ctrl';
+import { GenericDatasourceQueryCtrl } from './query-ctrl';
 
 /**
  * Generic query UI controller.
