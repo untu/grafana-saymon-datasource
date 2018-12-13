@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as dateMath from 'app/core/utils/datemath';
 
 /**
  * Datasource plugin logic implementation.
@@ -45,7 +46,17 @@ export class GenericDatasource {
    * @returns {Promise} Data promise.
    */
   query(options) {
-    const query = _.filter(options.targets, target => target.objectId && target.metricName && !target.hide);
+    const start = this.convertToTsdbTime(options.rangeRaw.from, false) || '1h-ago';
+    const end = this.convertToTsdbTime(options.rangeRaw.to, true);
+    const query = _.chain(options.targets)
+      .filter(target => target.objectId && target.metricName && !target.hide)
+      .map(target => {
+        target.from = start;
+        target.to = end;
+
+        return target;
+      })
+      .value();
 
     if (query.length <= 0) {
       return this.q.when({ data: [] });
@@ -72,12 +83,15 @@ export class GenericDatasource {
    * @returns {Promise} Metric data promise.
    */
   fetchMetric(query) {
+    let url = `${this.url}/node/api/objects/${query.objectId}/history?metrics=${query.metricName}&from=${query.from}`;
+
+    if (query.to) {
+      url += `&to=${query.to}`;
+    }
+
     return Promise
       .all([
-        this.request({
-          url: `${this.url}/node/api/objects/${query.objectId}/history?from=1h-ago&metrics=${query.metricName}`,
-          method: 'GET'
-        }),
+        this.request({ url, method: 'GET' }),
         this.fetchObject(query.objectId)
       ])
       .then(responses => {
@@ -145,5 +159,22 @@ export class GenericDatasource {
 
         return response.data;
       });
+  }
+
+  /**
+   * Converts date-time to OpenTSDB format, supported by SAYMON.
+   *
+   * @param {String|Number} date Date-time string or number to convert.
+   * @param {Boolean} roundUp Round-up flag.
+   * @returns {*} Conversion result.
+   */
+  convertToTsdbTime(date, roundUp) {
+    if (date === 'now') {
+      return null;
+    }
+
+    date = dateMath.parse(date, roundUp);
+
+    return date.valueOf();
   }
 }
