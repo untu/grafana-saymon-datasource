@@ -40,24 +40,30 @@ export class GenericDatasource {
 
   query(options) {
     const query = this.buildQueryParameters(options);
-    query.targets = query.targets.filter(t => !t.hide);
 
-    if (query.targets.length <= 0) {
+    if (query.length <= 0) {
       return this.q.when({ data: [] });
     }
 
-    if (this.templateSrv.getAdhocFilters) {
-      query.adhocFilters = this.templateSrv.getAdhocFilters(this.name);
-    }
-    else {
-      query.adhocFilters = [];
-    }
+    if (query.length > 1) throw new Error('Multiple queries are not supported yet.');
 
-    return this.doRequest({
-      url: this.url + '/query',
-      data: query,
-      method: 'POST'
-    });
+    const query0 = query[0];
+
+    return this
+      .doRequest({
+        url: `${this.url}/node/api/objects/${query0.objectId}/history?from=1h-ago&metrics=${query0.metricName}`,
+        method: 'GET'
+      })
+      .then(response => {
+        const data = _.map(response.data, metricData => {
+          return {
+            target: `${query0.objectId}:${query0.metricName}`,
+            datapoints: _.map(metricData.dps, dp => dp.reverse())
+          };
+        });
+
+        return { data };
+      });
   }
 
   annotationQuery(options) {
@@ -116,21 +122,7 @@ export class GenericDatasource {
   }
 
   buildQueryParameters(options) {
-    // remove placeholder targets
-    options.targets = _.filter(options.targets, target => {
-      return target.target !== 'select metric';
-    });
-
-    options.targets = _.map(options.targets, target => {
-      return {
-        target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
-        refId: target.refId,
-        hide: target.hide,
-        type: target.type || 'timeserie'
-      };
-    });
-
-    return options;
+    return _.filter(options.targets, target => target.objectId && target.metricName && !target.hide);
   }
 
   getTagKeys(options) {
