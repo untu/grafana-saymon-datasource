@@ -19,6 +19,25 @@ export class GenericDatasource {
     }
   }
 
+  /**
+   * Tests that the datasource configuration is correct by sending
+   * test request to the datasource.
+   *
+   * @returns {*} Datasource response promise.
+   */
+  testDatasource() {
+    return this
+      .doRequest({
+        url: this.url + '/node/api/tags',
+        method: 'GET'
+      })
+      .then(response => {
+        if (response.status === 200) {
+          return { status: 'success', message: 'Data source is working', title: 'Success' };
+        }
+      });
+  }
+
   query(options) {
     const query = this.buildQueryParameters(options);
     query.targets = query.targets.filter(t => !t.hide);
@@ -38,17 +57,6 @@ export class GenericDatasource {
       url: this.url + '/query',
       data: query,
       method: 'POST'
-    });
-  }
-
-  testDatasource() {
-    return this.doRequest({
-      url: this.url + '/',
-      method: 'GET'
-    }).then(response => {
-      if (response.status === 200) {
-        return { status: 'success', message: 'Data source is working', title: 'Success' };
-      }
     });
   }
 
