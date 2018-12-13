@@ -51,30 +51,9 @@ export class GenericDatasource {
       return this.q.when({ data: [] });
     }
 
-    if (query.length > 1) throw new Error('Multiple queries are not supported yet.');
+    const promises = _.map(query, row => this.fetchMetric(row));
 
-    const query0 = query[0];
-
-    return Promise
-      .all([
-        this.request({
-          url: `${this.url}/node/api/objects/${query0.objectId}/history?from=1h-ago&metrics=${query0.metricName}`,
-          method: 'GET'
-        }),
-        this.fetchObject(query0.objectId)
-      ])
-      .then(responses => {
-        const historyData = responses[0];
-        const objectInfo = responses[1];
-        const data = _.map(historyData, metricData => {
-          return {
-            target: `${objectInfo.name}:${query0.metricName}`,
-            datapoints: _.map(metricData.dps, dp => dp.reverse())
-          };
-        });
-
-        return { data };
-      });
+    return Promise.all(promises).then(data => ({ data }));
   }
 
   /**
@@ -84,6 +63,33 @@ export class GenericDatasource {
    */
   annotationQuery(options) {
     // Not implemented.
+  }
+
+  /**
+   * Fetches data for single Object-metric pair.
+   *
+   * @param {Object} query Metric query.
+   * @returns {Promise} Metric data promise.
+   */
+  fetchMetric(query) {
+    return Promise
+      .all([
+        this.request({
+          url: `${this.url}/node/api/objects/${query.objectId}/history?from=1h-ago&metrics=${query.metricName}`,
+          method: 'GET'
+        }),
+        this.fetchObject(query.objectId)
+      ])
+      .then(responses => {
+        const historyData = responses[0];
+        const objectInfo = responses[1];
+        const data = historyData[0];
+
+        return {
+          target: `${objectInfo.name}:${query.metricName}`,
+          datapoints: _.map(data.dps, dp => dp.reverse())
+        };
+      });
   }
 
   /**
