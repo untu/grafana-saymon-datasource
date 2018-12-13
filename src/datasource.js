@@ -21,9 +21,9 @@ export class GenericDatasource {
 
   /**
    * Tests that the datasource configuration is correct by sending
-   * test request to the datasource.
+   * test request SAYMON instance.
    *
-   * @returns {*} Datasource response promise.
+   * @returns {Promise} Datasource response promise.
    */
   testDatasource() {
     return this
@@ -38,6 +38,12 @@ export class GenericDatasource {
       });
   }
 
+  /**
+   * Fetches metric data using SAYMON history REST method.
+   *
+   * @param {Object} options Query options.
+   * @returns {Promise} Data promise.
+   */
   query(options) {
     const query = this.buildQueryParameters(options);
 
@@ -66,26 +72,25 @@ export class GenericDatasource {
       });
   }
 
+  /**
+   * Performs graph annotation query.
+   *
+   * @param {Object} options Query options.
+   */
   annotationQuery(options) {
-    const query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
-    const annotationQuery = {
-      range: options.range,
-      annotation: {
-        name: options.annotation.name,
-        datasource: options.annotation.datasource,
-        enable: options.annotation.enable,
-        iconColor: options.annotation.iconColor,
-        query: query
-      },
-      rangeRaw: options.rangeRaw
-    };
+    // Not implemented.
+  }
 
+  /**
+   * Fetches metric names for a given SAYMON Object.
+   *
+   * @param {String} objectId SAYMON Object ID.
+   * @returns {Promise} Metric name array promise.
+   */
+  listMetrics(objectId) {
     return this.doRequest({
-      url: this.url + '/annotations',
-      method: 'POST',
-      data: annotationQuery
-    }).then(result => {
-      return result.data;
+      url: `${this.url}/node/api/objects/${objectId}/stat/metrics`,
+      method: 'GET'
     });
   }
 

@@ -11,6 +11,18 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     this.scope = $scope;
     this.target.objectId = this.target.objectId || '';
     this.target.metricName = this.target.metricName || '';
+
+    // Object metric suggestion hook.
+    // Needs to be defined here as it is called from typeahead.
+    this.suggestMetrics = (query, callback) => {
+      if (!this.target.objectId) return;
+
+      this.datasource
+        .listMetrics(this.target.objectId)
+        .then(result => {
+          callback(result.data);
+        });
+    };
   }
 
   getOptions(query) {
@@ -23,6 +35,10 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
 
   onChangeInternal() {
     this.panelCtrl.refresh(); // Asks the panel to refresh data.
+  }
+
+  metricNameBlur() {
+    this.refresh();
   }
 }
 
