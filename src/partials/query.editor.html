@@ -7,7 +7,7 @@
     <div class="gf-form">
       <input class="gf-form-input" ng-model="ctrl.target.metricName" placeholder="Metric name"
         spellcheck='false' bs-typeahead="ctrl.suggestMetrics" data-min-length=0 data-items=100
-        ng-blur="ctrl.metricNameBlur()" data-provide="typeahead">
+        ng-blur="ctrl.refresh()" data-provide="typeahead">
     </div>
   </div>
 </query-editor-row>

@@ -26,10 +26,6 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
   onChangeInternal() {
     this.panelCtrl.refresh(); // Asks the panel to refresh data.
   }
-
-  metricNameBlur() {
-    this.refresh();
-  }
 }
 
 GenericDatasourceQueryCtrl.templateUrl = 'partials/query.editor.html';
