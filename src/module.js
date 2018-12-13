@@ -1,14 +1,23 @@
-import {GenericDatasource} from './datasource';
-import {GenericDatasourceQueryCtrl} from './query_ctrl';
+import { GenericDatasource } from './datasource';
+import { GenericDatasourceQueryCtrl } from './query_ctrl';
 
+/**
+ * Generic query UI controller.
+ */
 class GenericConfigCtrl {}
 GenericConfigCtrl.templateUrl = 'partials/config.html';
 
+/**
+ * Generic query options UI controller.
+ */
 class GenericQueryOptionsCtrl {}
 GenericQueryOptionsCtrl.templateUrl = 'partials/query.options.html';
 
+/**
+ * Generic query annotations UI controller.
+ */
 class GenericAnnotationsQueryCtrl {}
-GenericAnnotationsQueryCtrl.templateUrl = 'partials/annotations.editor.html'
+GenericAnnotationsQueryCtrl.templateUrl = 'partials/annotations.editor.html';
 
 export {
   GenericDatasource as Datasource,

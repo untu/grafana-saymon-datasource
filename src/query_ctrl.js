@@ -1,9 +1,11 @@
-import {QueryCtrl} from 'app/plugins/sdk';
-import './css/query-editor.css!'
+import { QueryCtrl } from 'app/plugins/sdk';
+import './css/query-editor.css!';
 
+/**
+ * Datasource query UI controller.
+ */
 export class GenericDatasourceQueryCtrl extends QueryCtrl {
-
-  constructor($scope, $injector)  {
+  constructor($scope, $injector) {
     super($scope, $injector);
 
     this.scope = $scope;

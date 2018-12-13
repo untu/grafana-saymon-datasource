@@ -1,7 +1,9 @@
-import _ from "lodash";
+import _ from 'lodash';
 
+/**
+ * Datasource plugin logic implementation.
+ */
 export class GenericDatasource {
-
   constructor(instanceSettings, $q, backendSrv, templateSrv) {
     this.type = instanceSettings.type;
     this.url = instanceSettings.url;
@@ -10,23 +12,25 @@ export class GenericDatasource {
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
     this.withCredentials = instanceSettings.withCredentials;
-    this.headers = {'Content-Type': 'application/json'};
+    this.headers = { 'Content-Type': 'application/json' };
+
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
       this.headers['Authorization'] = instanceSettings.basicAuth;
     }
   }
 
   query(options) {
-    var query = this.buildQueryParameters(options);
+    const query = this.buildQueryParameters(options);
     query.targets = query.targets.filter(t => !t.hide);
 
     if (query.targets.length <= 0) {
-      return this.q.when({data: []});
+      return this.q.when({ data: [] });
     }
 
     if (this.templateSrv.getAdhocFilters) {
       query.adhocFilters = this.templateSrv.getAdhocFilters(this.name);
-    } else {
+    }
+    else {
       query.adhocFilters = [];
     }
 
@@ -40,17 +44,17 @@ export class GenericDatasource {
   testDatasource() {
     return this.doRequest({
       url: this.url + '/',
-      method: 'GET',
+      method: 'GET'
     }).then(response => {
       if (response.status === 200) {
-        return { status: "success", message: "Data source is working", title: "Success" };
+        return { status: 'success', message: 'Data source is working', title: 'Success' };
       }
     });
   }
 
   annotationQuery(options) {
-    var query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
-    var annotationQuery = {
+    const query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
+    const annotationQuery = {
       range: options.range,
       annotation: {
         name: options.annotation.name,
@@ -72,14 +76,14 @@ export class GenericDatasource {
   }
 
   metricFindQuery(query) {
-    var interpolated = {
-        target: this.templateSrv.replace(query, null, 'regex')
+    const interpolated = {
+      target: this.templateSrv.replace(query, null, 'regex')
     };
 
     return this.doRequest({
       url: this.url + '/search',
       data: interpolated,
-      method: 'POST',
+      method: 'POST'
     }).then(this.mapToTextValue);
   }
 
@@ -87,9 +91,11 @@ export class GenericDatasource {
     return _.map(result.data, (d, i) => {
       if (d && d.text && d.value) {
         return { text: d.text, value: d.value };
-      } else if (_.isObject(d)) {
-        return { text: d, value: i};
       }
+      else if (_.isObject(d)) {
+        return { text: d, value: i };
+      }
+
       return { text: d, value: d };
     });
   }
@@ -102,12 +108,12 @@ export class GenericDatasource {
   }
 
   buildQueryParameters(options) {
-    //remove placeholder targets
+    // remove placeholder targets
     options.targets = _.filter(options.targets, target => {
       return target.target !== 'select metric';
     });
 
-    var targets = _.map(options.targets, target => {
+    options.targets = _.map(options.targets, target => {
       return {
         target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
         refId: target.refId,
@@ -115,8 +121,6 @@ export class GenericDatasource {
         type: target.type || 'timeserie'
       };
     });
-
-    options.targets = targets;
 
     return options;
   }
@@ -144,5 +148,4 @@ export class GenericDatasource {
       });
     });
   }
-
 }
