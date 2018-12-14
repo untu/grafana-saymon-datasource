@@ -40,6 +40,21 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
         .listMetrics(this.target.objectId)
         .then(callback);
     };
+
+    this.loadPath();
+  }
+
+  /**
+   * Loads path for selected Object.
+   */
+  loadPath() {
+    if (!this.target.objectId) return;
+
+    this.datasource
+      .fetchObject(this.target.objectId, ['path'])
+      .then(result => {
+        this.objectPath = result.path;
+      });
   }
 
   onChangeInternal() {
@@ -51,6 +66,8 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
    */
   onObjectIdBlur() {
     this.target.objectId = this.pathToId && this.pathToId[this.target.objectId] || this.target.objectId;
+
+    this.loadPath();
   }
 }
 
