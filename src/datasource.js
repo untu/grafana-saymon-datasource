@@ -92,7 +92,7 @@ export class GenericDatasource {
     return Promise
       .all([
         this.request({ url, method: 'GET' }),
-        this.fetchObject(query.objectId)
+        this.fetchObject(query.objectId, ['name'])
       ])
       .then(responses => {
         const historyData = responses[0];
@@ -123,11 +123,12 @@ export class GenericDatasource {
    * Fetches object information for given SAYMON Object.
    *
    * @param {String} objectId Object ID.
+   * @param {String[]} [fields] List of object fields to fetch.
    * @returns {Promise} Object information promise.
    */
-  fetchObject(objectId) {
+  fetchObject(objectId, fields) {
     return this.request({
-      url: `${this.url}/node/api/objects/${objectId}`,
+      url: `${this.url}/node/api/objects/${objectId}` + (!_.isEmpty(fields) ? `?fields=${fields.join(',')}` : ''),
       method: 'GET'
     });
   }
