@@ -10,4 +10,6 @@ set -e
 
 sudo ln -s `pwd` /var/lib/grafana/plugins/grafana-saymon-datasource
 
+sudo service grafana-server restart
+
 echo '>> Installation complete!'
