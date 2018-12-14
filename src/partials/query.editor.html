@@ -1,7 +1,9 @@
 <query-editor-row query-ctrl="ctrl" class="generic-datasource-query-row" has-text-edit-mode="true">
   <div class="gf-form-inline">
     <div class="gf-form">
-      <input class="gf-form-input" ng-model="ctrl.target.objectId" placeholder="Object ID">
+      <input class="gf-form-input" ng-model="ctrl.target.objectId" placeholder="Object ID"
+        spellcheck='false' bs-typeahead="ctrl.suggestPaths" data-min-length=0 data-items=100
+        ng-blur="ctrl.onObjectIdBlur()" data-provide="typeahead">
     </div>
 
     <div class="gf-form">

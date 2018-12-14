@@ -136,6 +136,18 @@ export class GenericDatasource {
   }
 
   /**
+   * Fetches full paths for all SAYMON Objects, paired with Object IDs.
+   *
+   * @returns {Promise} Path list promise.
+   */
+  listObjectPaths() {
+    return this.request({
+      url: `${this.url}/node/api/objects?fields=id,path`,
+      method: 'GET'
+    });
+  }
+
+  /**
    * Performs request to SAYMON through backend proxy. Returns raw response.
    *
    * @param {Object} options Request options.
