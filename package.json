@@ -1,22 +1,18 @@
 {
-  "name": "grafana-simple-json",
+  "name": "grafana-saymon",
   "private": true,
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "Grafana SAYMON datasource plugin.",
   "scripts": {
     "build": "./node_modules/grunt-cli/bin/grunt",
     "test": "./node_modules/grunt-cli/bin/grunt mochaTest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grafana/simple-json-datasource.git"
+    "url": "git.saymon.info:/grafana-saymon-datasource.git"
   },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/grafana/simple-json-datasource/issues"
-  },
+  "author": "SAYMON",
+  "license": "EPL",
   "engineStrict": true,
   "devDependencies": {
     "babel": "^6.23.0",
@@ -44,6 +40,5 @@
   },
   "dependencies": {
     "lodash": "^4.17.4"
-  },
-  "homepage": "https://github.com/grafana/simple-json-datasource#readme"
+  }
 }
