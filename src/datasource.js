@@ -89,10 +89,12 @@ export class GenericDatasource {
       url += `&to=${query.to}`;
     }
 
+    const nameField = query.displayPath ? 'path' : 'name';
+
     return Promise
       .all([
         this.request({ url, method: 'GET' }),
-        this.fetchObject(query.objectId, ['name'])
+        this.fetchObject(query.objectId, [nameField])
       ])
       .then(responses => {
         const historyData = responses[0];
@@ -100,7 +102,7 @@ export class GenericDatasource {
         const data = historyData[0];
 
         return {
-          target: `${objectInfo.name}:${query.metricName}`,
+          target: `${objectInfo[nameField]}:${query.metricName}`,
           datapoints: _.map(data.dps, dp => dp.reverse())
         };
       });

@@ -11,6 +11,7 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     this.scope = $scope;
     this.target.objectId = this.target.objectId || '';
     this.target.metricName = this.target.metricName || '';
+    this.target.displayPath = this.target.displayPath || false;
 
     // Object metric suggestion hook.
     // Needs to be defined here as it is called from typeahead.
