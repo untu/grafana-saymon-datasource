@@ -54,6 +54,10 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
       .fetchObject(this.target.objectId, ['path'])
       .then(result => {
         this.objectPath = result.path;
+      })
+      .catch(err => {
+        // Ignore 404 "Not Found" error as user can input anything as Object ID.
+        if (err.status != 404) throw err;
       });
   }
 
