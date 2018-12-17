@@ -103,7 +103,7 @@ export class GenericDatasource {
 
         return {
           target: `${objectInfo[nameField]}:${query.metricName}`,
-          datapoints: _.map(data.dps, dp => dp.reverse())
+          datapoints: data && _.map(data.dps, dp => dp.reverse()) || []
         };
       });
   }
