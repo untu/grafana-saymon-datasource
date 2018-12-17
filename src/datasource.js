@@ -83,7 +83,8 @@ export class GenericDatasource {
    * @returns {Promise} Metric data promise.
    */
   fetchMetric(query) {
-    let url = `${this.url}/node/api/objects/${query.objectId}/history?metrics=${query.metricName}&from=${query.from}`;
+    let url = `${this.url}/node/api/objects/${query.objectId}/history?from=${query.from}&metrics=${
+      encodeURIComponent(query.metricName)}`;
 
     if (query.to) {
       url += `&to=${query.to}`;
