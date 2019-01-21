@@ -1,6 +1,6 @@
 {
   "name": "SAYMON",
-  "id": "saymon",
+  "id": "untu-saymon-datasource",
   "type": "datasource",
 
   "metrics": true,
@@ -25,6 +25,6 @@
 
   "dependencies": {
     "grafanaVersion": "3.x.x",
-    "plugins": [ ]
+    "plugins": []
   }
 }
