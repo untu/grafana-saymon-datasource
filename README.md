@@ -1,6 +1,6 @@
 # SAYMON Datasource For Grafana
 
-This plug-in provides a datasource to access SAYMON metric data from objects of interest.
+This plug-in provides a datasource to access [SAYMON](https://saymon.info/en-version/) metric data from objects of interest.
 
 ![Preview](docs/images/datasource-preview.png)
 
