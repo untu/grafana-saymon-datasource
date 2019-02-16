@@ -1,0 +1,30 @@
+{
+  "name": "SAYMON",
+  "id": "untu-saymon-datasource",
+  "type": "datasource",
+
+  "metrics": true,
+  "annotations": false,
+
+  "info": {
+    "description": "SAYMON datasource",
+    "author": {
+      "name": "SAYMON Technologies",
+      "url": "http://saymon.info"
+    },
+    "logos": {
+      "small": "img/Saymon.png",
+      "large": "img/Saymon.png"
+    },
+    "links": [
+      { "name": "Site", "url": "http://saymon.info" }
+    ],
+    "version": "0.0.1",
+    "updated": "2019-01-25"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "3.x.x",
+    "plugins": []
+  }
+}
