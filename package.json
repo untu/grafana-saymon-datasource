@@ -1,7 +1,7 @@
 {
   "name": "grafana-saymon",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Grafana SAYMON datasource plugin.",
   "scripts": {
     "build": "./node_modules/grunt-cli/bin/grunt",
